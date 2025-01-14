@@ -1,6 +1,4 @@
-const express = require('express')
-const z  = require('zod')
-
+import z from 'zod'
 
 const schemaMovie = z.object({
     title: z.string({
@@ -18,16 +16,11 @@ const schemaMovie = z.object({
         ]))
 })
 
-function  ValidatedMovie(object){
+export function  ValidatedMovie(object){
     return schemaMovie.safeParse(object)
 }
 
-function ValidatedPartialMovie(object){
+export function ValidatedPartialMovie(object){
     return schemaMovie.partial().safeParse(object)
-}
-
-module.exports = {
-    ValidatedMovie,
-    ValidatedPartialMovie
 }
 
