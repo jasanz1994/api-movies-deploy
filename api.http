@@ -1,0 +1,32 @@
+GET http://localhost:3000/movies
+###
+GET http://localhost:3000/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
+###
+GET http://localhost:3000/movies?genre=crime
+
+###
+POST http://localhost:3000/movies
+Content-Type: application/json
+
+{
+    "title": "Hombres de Honor",
+    "year": 2009,
+    "director": "Jose",
+    "duration": 152,
+    "poster": "https://pics.filmaffinity.com/men_of_honor-584186623-large.jpg",
+    "genre": ["Action"],
+    "rate": 9.8
+}
+
+###
+PATCH  http://localhost:3000/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
+Content-Type: application/json
+
+{
+    "year": 2010,
+    "director": "Jose",
+    "rate": 9.8
+}
+
+###
+DELETE  http://localhost:3000/movies/c906673b-3948-4402-ac7f-73ac3a9e3105
