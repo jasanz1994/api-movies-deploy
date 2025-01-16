@@ -16,7 +16,7 @@ const schemaMovie = z.object({
         ]))
 })
 
-export function  ValidatedMovie(object){
+export function ValidatedMovie(object){
     return schemaMovie.safeParse(object)
 }
 
