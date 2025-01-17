@@ -19,13 +19,13 @@ Content-Type: application/json
 }
 
 ###
-PATCH  http://localhost:3000/movies/fd48e25e-d43d-11ef-8c70-8cf8c5626ac4
+PATCH  http://localhost:3000/movies/53769d56-d442-11ef-8c70-8cf8c5626ac4
 Content-Type: application/json
 
 {
-    "year": 2004,
-    "director": "Jose",
-    "rate": 9.8
+    "year": 2016,
+    "duration": 135,
+    "genre": ["Action","Guerra"]
 }
 
 ###

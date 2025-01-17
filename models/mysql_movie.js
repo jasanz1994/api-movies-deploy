@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise'
+import { object } from 'zod';
 
 // Create the connection to database
 const connection = await mysql.createConnection({
@@ -80,7 +81,56 @@ export class MovieModel {
     }
 
     static async update({ id, input }) {
-                
+        let genre;
+        if (Object.keys(input).includes('genre')) {
+            genre = input.genre
+            delete input.genre
+        }
+
+        const [movieID] = await connection.query(
+            'SELECT BIN_TO_UUID(id) id FROM movie WHERE id = UUID_TO_BIN(?);',
+            [id]
+        )
+
+        if (movieID.length > 0) {
+            if (genre) {
+                await connection.query(`DELETE FROM movie_genres WHERE movieID = UUID_TO_BIN(?);`, [id])
+
+                genre.map(async (gen) => {
+                    const [idGen] = await connection.query(
+                        `SELECT id 
+                FROM genre g 
+                WHERE LOWER(g.genre) = LOWER(?);`,
+                        [gen]
+                    )
+                    await connection.query(
+                        `INSERT INTO movie_genres (movieID, genreID)
+                    VALUES (UUID_TO_BIN("${id}"), ?);`,
+                        [idGen[0].id]
+                    )
+                })
+            }
+            
+            if (Object.keys(input).length > 0) {
+               
+                const updates = Object.keys(input).map((key) => `${key} = ?`).join(', ')
+
+                const values = Object.values(input)
+
+                const sql = `UPDATE movie SET ${updates} WHERE id = UUID_TO_BIN(?);`;
+                values.push(id)
+
+                await connection.query(sql, values)
+            }
+            const[movie] = await connection.query(
+                `SELECT title,year,director,duration,poster,rate,BIN_TO_UUID(id) id 
+            FROM movie 
+            WHERE id = UUID_TO_BIN(?);`,
+                [id]
+            )
+            return movie
+        }
+        return false
     }
 
     static async delete({ id }) {

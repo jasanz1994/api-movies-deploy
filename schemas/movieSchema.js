@@ -12,7 +12,7 @@ const schemaMovie = z.object({
     rate: z.number().min(0).max(10).default(6),
     genre: z.array(
         z.enum(['Action', 'Drama', 'Crime', 'Adventure', 'Sci-Fi',
-            'Romance', 'Animation', 'Biography', 'Fantasy'
+            'Romance', 'Animation', 'Biography', 'Fantasy', 'Guerra'
         ]))
 })
 
